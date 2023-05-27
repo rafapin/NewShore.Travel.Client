@@ -1,0 +1,75 @@
+<h2>Flight Search Engine</h2>
+<form [formGroup]="flightOptionsForm" (ngSubmit)="getflights()"  >
+  <mat-form-field appearance="outline" class="input-flights">
+    <input matInput formControlName="origin" placeholder="Origin" >
+    <mat-error *ngIf="flightOptionsForm.controls['origin'].invalid && flightOptionsForm.controls['origin'].touched">
+      It's required, it should have 3 caracters
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="input-flights">
+    <input matInput formControlName="destination" placeholder="Destination">
+    <mat-error *ngIf="flightOptionsForm.controls['destination'].invalid && flightOptionsForm.controls['destination'].touched">
+      It's required, it should have 3 caracters
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="input-flights">
+    <input matInput type="number" formControlName="maxNumberFlights" placeholder="Max Number of Flights">
+    <mat-error *ngIf="flightOptionsForm.controls['maxNumberFlights'].invalid && flightOptionsForm.controls['maxNumberFlights'].touched">
+      It's required, it should be between 1 and 5 flights
+    </mat-error>
+  </mat-form-field>
+  <button mat-fab class="input-flights" aria-label="Example icon button with a bookmark icon"
+    [disabled]="flightOptionsForm.invalid">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+<div class="loader-container" *ngIf="isLoading ">
+  <mat-spinner></mat-spinner>
+  <span class="loading-text">Loading</span>
+</div>
+
+<ng-container *ngIf="journeys && journeys.length === 0 && !isLoading">
+  <div class="no-routes-message custom-card">
+    <div class="custom-card-content">
+      <h3 class="custom-heading">No hay rutas disponibles</h3>
+    </div>
+  </div>
+</ng-container>
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let journey of journeys; let index=index" >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div class="journey-header">
+          <span class="index">{{index+1}}.</span>
+          <span class="origin"> {{journey.origin}}</span>
+          <span class="arrow">&#8594;</span>
+          <span class="destination">{{journey.destination}}</span>
+        </div>
+      </mat-panel-title>
+      <mat-panel-description>
+        <div class="journey-details">
+          <span class="price">Price: {{journey.price | currency}}</span>
+          <span class="separator">-</span>
+          <span class="flights">Number of Flights ({{journey.flights.length}})</span>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-card *ngFor="let flight of journey.flights" class="mat-elevation-z10 card-flight">
+      <mat-card-content>
+        <div class="flight-info">
+          <div class="route">
+            <mat-icon class="icon-class">flight</mat-icon>
+            <span class="origin">{{ flight.origin }}</span>
+            <span class="separator">&#8594;</span>
+            <span class="destination">{{ flight.destination }}</span>
+          </div>
+          <div class="price-details">
+            <span class="amount">Price: {{ flight.price | currency }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-expansion-panel>
+</mat-accordion>
+
