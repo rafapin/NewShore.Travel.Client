@@ -1,5 +1,6 @@
 # NewShoreFlightsClient
 
+The app is runing in: https://green-stone-0a0293c0f.3.azurestaticapps.net/
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
 The currency conversion service in the Angular app is local, but if we obtain the API that provides updated currency rates throughout the day, we only need to change the service provider implementation.
 
