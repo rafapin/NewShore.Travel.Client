@@ -1,6 +1,8 @@
 # NewShoreFlightsClient
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
+The currency conversion service in the Angular app is local, but if we obtain the API that provides updated currency rates throughout the day, we only need to change the service provider implementation.
+
 
 ## Development server
 
@@ -25,3 +27,5 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
