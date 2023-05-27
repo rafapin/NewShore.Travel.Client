@@ -3,9 +3,9 @@ import { Component, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-Flights-start',
-  templateUrl: './Flights-start.component.html',
-  styleUrls: ['./Flights-start.component.scss'],
+  selector: 'app-flights-start',
+  templateUrl: './flights-start.component.html',
+  styleUrls: ['./flights-start.component.scss'],
   animations: [
     trigger('fadeInOut', [
       state('void', style({ opacity: 0 })),
