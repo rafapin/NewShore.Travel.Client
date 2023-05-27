@@ -13,10 +13,19 @@
     </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline" class="input-flights">
+    <mat-label>Max Number of Flights</mat-label>
     <input matInput type="number" formControlName="maxNumberFlights" placeholder="Max Number of Flights">
     <mat-error *ngIf="flightOptionsForm.controls['maxNumberFlights'].invalid && flightOptionsForm.controls['maxNumberFlights'].touched">
       It's required, it should be between 1 and 5 flights
     </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Currency </mat-label>
+    <mat-select formControlName="currency" name="currency">
+      <mat-option *ngFor="let currency of currencies" [value]="currency.value">
+        {{currency.label}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <button mat-fab class="input-flights" aria-label="Example icon button with a bookmark icon"
     [disabled]="flightOptionsForm.invalid">
@@ -49,7 +58,9 @@
       </mat-panel-title>
       <mat-panel-description>
         <div class="journey-details">
-          <span class="price">Price: {{journey.price | currency}}</span>
+          <span class="price">Price: {{journey.price | currency}} 
+            <span *ngIf="getCurrency() != 'USD'">({{getConvert(journey.price) | currency}} {{getCurrency()}})</span>
+          </span>
           <span class="separator">-</span>
           <span class="flights">Number of Flights ({{journey.flights.length}})</span>
         </div>
@@ -65,7 +76,10 @@
             <span class="destination">{{ flight.destination }}</span>
           </div>
           <div class="price-details">
-            <span class="amount">Price: {{ flight.price | currency }}</span>
+            <span class="amount">Price: {{ flight.price | currency }}
+              <span *ngIf="getCurrency() != 'USD'">({{getConvert(flight.price) | currency}} {{getCurrency()}})</span>
+          
+            </span>
           </div>
         </div>
       </mat-card-content>

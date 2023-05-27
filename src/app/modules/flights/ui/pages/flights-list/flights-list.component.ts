@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { IFlightsRepository } from '@flights/application';
 import { FlightsQuery } from '@flights/application/queries/flights-query';
 import { Journey, Flight,Transport } from '@flights/domain';
+import { CurrencyType } from '@shared/enums/currency.enum';
+import { ICurrencyService } from '@shared/services/currency/icurrency.service';
 
 @Component({
   selector: 'app-flights-list',
@@ -21,15 +23,17 @@ import { Journey, Flight,Transport } from '@flights/domain';
 })
 export class FlightsListComponent {
   flightsRepository = inject(IFlightsRepository);
-  displayedColumns: string[] = ['id', 'userName', 'email','status','options'];
+  currencyService = inject(ICurrencyService);
   journeys!: Journey[];
+  currencies: any[]=[];
   flightOptionsForm: FormGroup;
   isLoading:Boolean=false;
   constructor(private formBuilder: FormBuilder) {
     this.flightOptionsForm = this.formBuilder.group({
-      origin: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(3)]],
-      destination: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(3)]],
-      maxNumberFlights: [2, [Validators.required,Validators.min(1), Validators.max(5)]]
+      origin: ['MDE', [Validators.required,Validators.minLength(3), Validators.maxLength(3)]],
+      destination: ['BOG', [Validators.required,Validators.minLength(3), Validators.maxLength(3)]],
+      maxNumberFlights: [2, [Validators.required,Validators.min(1), Validators.max(5)]],
+      currency:CurrencyType.USD
     });
     const origin = this.flightOptionsForm.get('origin');
     const destination = this.flightOptionsForm.get('destination');
@@ -38,6 +42,14 @@ export class FlightsListComponent {
     });
     destination?.valueChanges.subscribe(value => {
       destination.setValue(value.toUpperCase(), { emitEvent: false });
+    });
+    this.currencies = Object.entries(CurrencyType)
+    .filter(([key, value]) => typeof value == 'number')
+    .map(([key, value]) =>{
+      return {
+        value: value,
+        label: key
+      }
     });
   }
   getflights():void{
@@ -53,5 +65,11 @@ export class FlightsListComponent {
   }
   convertToUppercase(value:string) {
     value = value.toUpperCase();
+  }
+  getConvert(value:number):number{
+    return this.currencyService.Convert(value,this.flightOptionsForm.get('currency')?.value)
+  }
+  getCurrency():string{
+    return this.currencies.find(c=> c.value === this.flightOptionsForm.get('currency')?.value).label;
   }
 }

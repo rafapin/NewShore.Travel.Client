@@ -15,9 +15,13 @@ import { MatSlideToggleModule  } from '@angular/material/slide-toggle';
 import { MatExpansionModule  } from '@angular/material/expansion';
 import { MatProgressBarModule  } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule  } from '@angular/material/progress-spinner';
+import {MatSelectModule} from '@angular/material/select';
+import { ICurrencyService } from './services/currency/icurrency.service';
+import { LocalCurrencyService } from './services/currency/localcurrency.service';
 
 const SHARED_PROVIDER = [
-  HttpService
+  HttpService,
+  {provide: ICurrencyService, useClass: LocalCurrencyService},
 ]
 const SHARED_MODULES = [
 	CommonModule,
@@ -34,7 +38,8 @@ const SHARED_MODULES = [
   MatSlideToggleModule ,
   MatProgressBarModule,
   MatExpansionModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatSelectModule
 ];
 
 @NgModule({
